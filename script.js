@@ -1,22 +1,24 @@
     /* INHALTSVERZEICHNIS
-       01. Produktdaten................................Zeile 18
-       02. Slogans für die Startseite..................Zeile 121
-       03. Globale Daten und Local Storage.............Zeile 134
-       04. DOM-Elemente................................Zeile 148
-       05. Hilfsfunktionen.............................Zeile 201
-       06. Lagerlogik..................................Zeile 222
-       07. Produktanzeige und Produkt-Slider...........Zeile 251
-       08. Warenkorb...................................Zeile 390
-       09. Konto, Registrierung und Login..............Zeile 515
-       10. Checkout und Bestellung.....................Zeile 560
-       11. Navigation..................................Zeile 626
-       12. Button-Effekte..............................Zeile 650
-       13. Suchfunktion................................Zeile 688
-       14. Eventlistener...............................Zeile 771
+       01. Produktdaten................................Zeile 19
+       02. Slogans für die Startseite..................Zeile 26
+       03. Globale Daten und Local Storage.............Zeile 38
+       04. DOM-Elemente................................Zeile 50
+       05. Hilfsfunktionen.............................Zeile 103
+       06. Backend-Kommunikation.......................Zeile 116
+       07. Lagerlogik..................................Zeile 150
+       08. Produktanzeige und Produkt-Slider...........Zeile 179
+       09. Warenkorb...................................Zeile 318
+       10. Konto, Registrierung und Login..............Zeile 443
+       11. Checkout und Bestellung.....................Zeile 504
+       12. Navigation..................................Zeile 601
+       13. Button-Effekte..............................Zeile 625
+       14. Suchfunktion................................Zeile 663
+       15. Eventlistener...............................Zeile 746
     */
 
-    /* 01. PRODUKTDATEN
-       Hier werden alle Produkte, Größen, Preise und Lagerwerte gepflegt.
+    /* 01. PRODUKTDATEN AUS DEM BACKEND
+       Die Produktdaten werden nicht direkt im Frontend gespeichert,
+      sondern über das Backend aus der Datei products.json geladen.
     */
 
     let products = [];
@@ -33,10 +35,7 @@
       '🥤 Jeder Shake bringt dich deinem Ziel näher.'
     ];
 
-    /*
-        03. GLOBALE DATEN UND LOCALSTORAGE
-        Hier werden Warenkorb, Benutzer und eingeloggter Benutzer gespeichert.
-    */
+     // 03. GLOBALE DATEN UND LOCAL STORAGE
 
     const users = JSON.parse(localStorage.getItem('fitsupplyUsers') || '[]');
     const cart = JSON.parse(localStorage.getItem('fitsupplyCart') || '[]');
@@ -113,6 +112,12 @@
       return value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
     }
 
+    /*
+       06. BACKEND-KOMMUNIKATION
+       Lädt Produkte und verarbeitet Registrierungen,
+       Anmeldungen und Bestellungen über die API.
+    */
+
 function loadProductsFromBackend() {
   fetch("https://fitsupply-backend.onrender.com/products")
     .then(response => response.json())
@@ -142,7 +147,7 @@ function loadProductsFromBackend() {
     }
 
     /*
-       06. LAGERLOGIK
+       07. LAGERLOGIK
        Gesamtbestand = 100 pro Produktgröße.
        Verfügbarer Bestand = 100 minus Warenkorbmenge.
     */
@@ -171,7 +176,7 @@ function loadProductsFromBackend() {
       return { subtotal, tax, discount, afterDiscount, shipping, total, firstOrderDiscountEligible };
     }
 
-     // 07. PRODUKTANZEIGE UND PRODUKT-SLIDER
+     // 08. PRODUKTANZEIGE UND PRODUKT-SLIDER
 
     function renderProducts() {
       productGrid.innerHTML = '';
@@ -310,7 +315,7 @@ function loadProductsFromBackend() {
     }
 
     /*
-       08. WARENKORB
+       09. WARENKORB
        Mengen können erhöht, verringert oder direkt eingetippt werden.
     */
 
@@ -435,7 +440,7 @@ function loadProductsFromBackend() {
     }
 
     /*
-       09. KONTO, REGISTRIERUNG UND LOGIN
+       10. KONTO, REGISTRIERUNG UND LOGIN
     */
 
     function registerUser() {
@@ -496,7 +501,7 @@ function loadProductsFromBackend() {
       renderCart();
     }
 
-     // 10. CHECKOUT UND BESTELLUNG
+     // 11. CHECKOUT UND BESTELLUNG
 
     function openCheckout() {
       if (cart.length === 0) {
@@ -593,7 +598,7 @@ function loadProductsFromBackend() {
   });
 }
 
-     // 11. NAVIGATION
+     // 12. NAVIGATION
 
     function showPanel(panelId) {
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -617,7 +622,7 @@ function loadProductsFromBackend() {
       });
     }
 
-     // 12. BUTTON-EFFEKTE
+     // 13. BUTTON-EFFEKTE
 
     function addRipple(event) {
       const button = event.currentTarget;
@@ -655,7 +660,7 @@ function loadProductsFromBackend() {
 
 
     /*
-       13. SUCHFUNKTION
+       14. SUCHFUNKTION
        Sucht nach Produkten, die mit dem eingegebenen Text anfangen.
     */
 
@@ -738,7 +743,7 @@ function loadProductsFromBackend() {
 
 
     /*
-       14. EVENTLISTENER
+       15. EVENTLISTENER
        Hier werden Klicks, Suche, Warenkorb und Navigation verbunden.
     */
 
